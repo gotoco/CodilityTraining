@@ -45,102 +45,30 @@ public class MaxDoubleSliceSum {
     public static void main(String[] args){
 
         MaxDoubleSliceSum d = new MaxDoubleSliceSum();
-//        int [] testCase1 = {3, 2, 6, -1, 4, 5, -1, 2 };
-//
-//        System.out.println("First test case should return  17 : " + d.solution(testCase1));
+        int [] testCase1 = {3, 2, 6, -1, 4, 5, -1, 2 };
 
-//        int [] secondCase1 = {3, 2, 6, 1, 4, 5, 1, 2 };
-//
-//        System.out.println("Second test case should return  18 : " + d.solution(secondCase1));
-//
-//        int [] thirdCase = {-1,-2,-3, 4, 5, 6, 7};
-//
-//        System.out.println("Third test case should return  11 : " + d.solution(thirdCase));
+        System.out.println("First test case should return  17 : " + d.solution(testCase1));
 
-//                int [] thirdCase = {-37,-46,-33,5,-30,36,-2};
-////
-//        System.out.println("Third test case should return  1 : " + d.solution(thirdCase));
+        int [] secondCase1 = {3, 2, 6, 1, 4, 5, 1, 2 };
+
+        System.out.println("Second test case should return  18 : " + d.solution(secondCase1));
+
+        int [] thirdCase = {-1,-2,-3, 4, 5, 6, 7};
+
+        System.out.println("Third test case should return  11 : " + d.solution(thirdCase));
+
+                int [] fourCase = {-37,-46,-33,5,-30,36,-2};
+
+        System.out.println("Third test case should return  1 : " + d.solution(fourCase));
 //
 
-        int [] thirdCase = {-33,-44,13,-29,40,28,-39,-46};
+        int [] fiveCase = {-33, -44, 13, -29, 40, 28, -39, -46};
 
-        System.out.println("Third test case should return  81 : " + d.solution(thirdCase));
-
-//        int size = 10 ;//Integer.MAX_VALUE;
-//
-//        for(int i=0 ; i<size; i++){
-//
-//            Random random = new Random() ;
-//            int randomNumber = random.nextInt(15);
-//
-//            int sizeArray = randomNumber;
-//            int [] array = new int[sizeArray];
-//
-//            for(int j=0; j<array.length; j++){
-//                array[j] = random.nextInt(100) - 50;
-//            }
-//
-//            int sol1 =  d.solution(array) ;
-//            int sol2 = d.solution2(array) ;
-//
-//            if(sol1 != sol2){
-//                System.out.println("  ");
-//                System.out.println("sol1 =  " + sol1);
-//                System.out.println("sol2 =  " + sol2);
-//                for(int k=0;k<sizeArray;k++){
-//                    System.out.print(array[k]);
-//                    System.out.print(",");
-//                }
-//                System.out.println("  ");
-//            }
-//
-//        }
-
+        System.out.println("Third test case should return  81 : " + d.solution(fiveCase) );
 
     }
 
     public int solution(int[] A) {
-
-        int n= A.length;
-        int firstIndex;
-
-        int smallestElement = Integer.MAX_VALUE;
-        int currentSum = 0;
-        int maxDoublet = 0;
-
-        firstIndex=0;
-
-        for(int i=0; i<n-1; i++){
-
-            if(i != firstIndex) {
-
-                if (smallestElement > A[i]) {
-                    if(smallestElement != Integer.MAX_VALUE)
-                        currentSum += smallestElement;
-
-                    smallestElement = A[i];
-
-                } else {
-                    currentSum = currentSum + A[i];
-                }
-
-                if ( (currentSum) < 0) {
-                    currentSum = 0;
-                    firstIndex = i;
-                    smallestElement = Integer.MAX_VALUE;
-                    continue;
-                }
-
-                maxDoublet = Math.max(maxDoublet, currentSum );
-            }
-        }
-
-
-        return maxDoublet;
-    }
-
-    public int solution2(int[] A) {
-        // write your code in Java SE 8
         int [] left = new int[A.length];
         int [] right = new int[A.length];
 
