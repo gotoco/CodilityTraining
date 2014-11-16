@@ -44,7 +44,7 @@ public class Dominator {
         int [] empty = {};
         System.out.println("### Empty test should return -1 : " + d.solution(empty));
 
-        int [] almost_one = {Integer.MAX_VALUE}   ;
+        int [] almost_one = {Integer.MIN_VALUE}   ;
         System.out.println("### Almost One test should return 0 : " + d.solution(almost_one));
     }
 
