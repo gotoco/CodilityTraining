@@ -79,19 +79,73 @@ public class Peaks {
 
         System.out.println("Small case should return 0 : " + p.solution(smallCase));
 
+        int [] normalCase = {1,2,3, 1,2,3, 1,2,3};
+
+        System.out.println("normalCase should return 1 : " + p.solution(normalCase));
+
+        int [] nastyCase = {1,2,3, 1,2,3, 1,2,3, 1};
+
+        System.out.println("nastyCase should return 2 : " + p.solution(nastyCase));
+
+
+        int [] nastyCase2 = {1, 4, 3, 4, 2, 4, 1, 4, 3, 3};
+
+        System.out.println("nastyCase2 should return 4 : " + p.solution(nastyCase2));
     }
 
-
+       /*Codility 100%*/
     public int solution(int[] A) {
-        // write your code in Java SE 8
 
-        return brutForceSolution(A);
+        int N = A.length;
+        int [] peaksNumbers = new int[N];
+
+        if(N<3)
+            return 0;
+
+        for(int i=1; i<(N-1); i++){
+
+            if (A[i - 1] < A[i] && A[i] > A[i + 1]){
+                peaksNumbers[i] = peaksNumbers[i-1]+1  ;
+            } else {
+                peaksNumbers[i] = peaksNumbers[i-1]  ;
+            }
+        }
+        peaksNumbers[N-1] =  peaksNumbers[N-2];
+
+        List<Integer> divisors = new ArrayList<Integer>();
+
+        for(int i=1; i<N+1; i++){
+            if(N % i == 0){
+                divisors.add(i);
+            }
+        }
+
+        for(Integer d : divisors){
+            boolean success = false;
+            int last = 0;
+
+            for(int i=d-1; i<N; i+=d) {
+                  if(peaksNumbers[i] > last){
+                      last = peaksNumbers[i];
+                      success = true;
+                  } else {
+                      success = false;
+                      break;
+                  }
+            }
+            if(success)
+                return N/d;
+        }
+        return 0;
     }
 
 
     public int brutForceSolution(int [] A){
         int result = 0;
         int N = A.length;
+
+        if(N<3)
+            return 0;
 
         List<Integer> smallDivN = new ArrayList<Integer>();
         List<Integer> bigDivN = new ArrayList<Integer>();
@@ -115,25 +169,28 @@ public class Peaks {
 
         for(Integer div : bigDivN){
             int ileCzesci = div;
-            int ileElementowCzesci = N/div;
-            boolean eachSliceContainsPeak = true;
+            int elems = N/div;
+            boolean nextDiv=false;
+            for(int s=1; s<N; s+=elems){
 
-            for(int i=1; i<N-1; i+=ileElementowCzesci){
-                boolean isPeakInSlice = false;
-                   for(int k=i; k<(i+ileElementowCzesci-1); k++){
-                       if(k+1 < N)
-                         if(A[k] > A[k-1] && A[k] > A[k+1]){
-                             isPeakInSlice = true;
-                         }
+                for(int k=s; k<s+elems; k++){
 
-                   }
-                if(isPeakInSlice == false){
-                    eachSliceContainsPeak = false;
+                    if(k+1 < N)
+                        if(A[k] > A[k-1] && A[k] > A[k+1]){
+                            break;
+                        }
+
+                    if(k+1 == s+elems){
+                        nextDiv = true;
+                        break;
+                    }
+                }
+                if(nextDiv){
                     break;
                 }
-            }
 
-            if(eachSliceContainsPeak == true) {
+            }
+            if(!nextDiv){
                 result = div;
                 break;
             }
