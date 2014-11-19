@@ -23,15 +23,17 @@ public class CountFactors {
 
     }
 
-    public int solution(int N) {
+    public int solution(int N){
+        int result = 0;
+        int i = 1;
 
-        int cnt = 0;
-
-        for(int i=0; i*i <= N; i++){
-            if(N%i == 0)
-                cnt++;
+        while (N/i > i) {  // use '/' to avoid overflow
+            if (N % i == 0) result += 2;
+            i++;
         }
-        return cnt;
+        if (N % i == 0 && N / i == i) result++;
+
+        return result;
     }
 
 }
