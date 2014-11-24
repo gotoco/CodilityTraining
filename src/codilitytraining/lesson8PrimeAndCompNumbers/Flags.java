@@ -56,15 +56,15 @@ public class Flags {
 
         Flags sol = new Flags();
 
-        int [] firstTestCase = {1,5, 3,4,3,4,1,2,3,4,6,2};
+        int [] firstTestCase = {1,5,3,4,3,4,1,2,3,4,6,2};
         System.out.println("First Test case should return 3: " + sol.pSol(firstTestCase));
 
-//          int [] secondTest = {1,2,1,2,1,2,1};
-//          System.out.println("First Test case should return 2: " + sol.pSol(secondTest));
-//
-//
-//          int [] third = {0,1,0,0,0,1,0,0,0,1,0,0,0,1,0};
-//          System.out.println("Third Test case should return 4: " + sol.pSol(third));
+          int [] secondTest = {1,2,1,2,1,2,1};
+          System.out.println("First Test case should return 2: " + sol.pSol(secondTest));
+
+
+          int [] third = {0,1,0,0,0,1,0,0,0,1,0,0,0,1,0};
+          System.out.println("Third Test case should return 4: " + sol.pSol(third));
 
     }
 
@@ -74,49 +74,44 @@ public class Flags {
         return solution(A);
     }
 
+    /*Codility 100% O(N) Solution*/
     public int solution(int[] A) {
-
+        int i, result, pos, sum;
         int N = A.length;
         int peaks = 0;
+        int [] next = new int[N];
 
-        int [] dist = new int[N];
-        int [] peakCnt = new int[N];
-        int d = 1;
+        if (N < 3) return 0;
 
-        for(int i=1; i<N-1; i++){
-            if(A[i-1]<A[i] && A[i]>A[i+1])  {
-                peaks++;
-
-                d = 0;
-                dist[i] = d;
+        // initial next peaks
+        next[N-1] = -1; // -1 means no peak after this point
+        for (i = N-2; i > 0; i--) {
+            if (A[i] > A[i-1] && A[i] > A[i+1]) {
+                next[i] = i;
             } else {
-                dist[i] = d;
+                next[i] = next[i+1];
             }
-            peakCnt[i] = peaks;
-            d++;
-
         }
 
-        for(int i=0; i<N; i++){
-            System.out.print(A[i]+",");
+        next[0] = next[1];
 
+        i = 2;
+        result = 0;
+        while ( N/(i-1) >= (i-1) ) {
+            pos = 1;
+            sum = 0;
+            while (pos < N && sum < i) {
+                pos = next[pos];
+                if (pos == -1) break;
+                sum += 1;   // number of flags for step == i
+                pos += i;
+            }
+            result = sum >= result ? sum : result;
+            i++;
         }
-        System.out.println(" - ");
-        for(int i=0; i<N; i++){
-            System.out.print(dist[i]+",");
 
-        }
+        return result;
 
-
-
-
-        if(peaks == 0)
-            return 0;
-
-
-
-
-       return 0;
     }
 
 
