@@ -55,10 +55,13 @@ public class Cities {
     public static void main(String [] args){
 
         //First Example test case:
-        exampleTest();
+//        exampleTest();
+//
+//        //Next test case: all cities are equally attractive,
+//        allCitiHaveEqualImportant();
 
-        //Next test case: all cities are equally attractive,
-        allCitiHaveEqualImportant();
+        //straight star
+        straightStar();
     }
 
     public static void exampleTest(){
@@ -114,6 +117,37 @@ public class Cities {
 
     }
 
+    public static void straightStar(){
+        Cities c = new Cities();
+
+        int [] C = new int [9];
+        int [] D = new int [9];
+        //connections
+        C[0] = 1 ;
+        C[1] = 2 ;
+        C[2] = 3 ;
+        C[3] = 4;
+        C[4] = 5;
+        C[5] = 6;
+        C[6] = 7;
+        C[7] = 8;
+        C[8] = 7;
+        //attractive
+        D[0] = 1;
+        D[1] = 4;
+        D[2] = 3;
+        D[3] = 3;
+        D[4] = 5;
+        D[5] = 5;
+        D[6] = 4;
+        D[7] = 2;
+        D[8] = 4;
+
+        //System.out.println("Second test case should return 3 : " + c.solution(3, C, D));
+        System.out.println("Second test case should return 3 : " + c.solution(6, C, D));
+        //System.out.println("Second test case should return 8 : " + c.solution(8, C, D));
+
+    }
     /**
      * @param K - K param
      * @param C - City connections
@@ -125,7 +159,7 @@ public class Cities {
         int N = C.length;
         Integer[] dd = new Integer[D.length];
         for (int i = 0; i < D.length; i++) {
-            dd[i] = Integer.valueOf(D[i]);
+            dd[i] = D[i];
         }
         List<Integer> order  = new ArrayList<Integer>(Arrays.asList(dd));
 
@@ -183,7 +217,7 @@ public class Cities {
         for(int i=0; i<N; i++) {
             if(qu[i]==-1){ ss=i; break; }
             ss++;
-        };
+        }
 
         //Checkin if there are no "island" element with big value outside the minimum spanning tree
         for (int i=0; i<ss; i++){
@@ -191,15 +225,28 @@ public class Cities {
             int found = Collections.binarySearch(order, attr);
             order.remove(found);
         }
-        int j;
-        for(j=max; j>=ll; j--){
-            if(Collections.binarySearch(order, j) != -1) break;
+        int j; //j is a max value from excluded cities
+        for(j=max; j>ll; j--){
+            int index = Collections.binarySearch(order, j);
+            if( index >-1) break;
         }
         if(j != ll){
             int result = 0;
             for(int i=N-1; i>0; i--){
                 if(dd[i]>j)result++;
+
+                if(dd[i]==j){
+
+                    int index = Collections.binarySearch(order, j);
+                    if( index >-1){
+                        order.remove(index);
+
+                    } else {
+                        result++;
+                    }
+                }
             }
+            return result;
         }
 
         return K>ss ? ss : K;
