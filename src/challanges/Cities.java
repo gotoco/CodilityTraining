@@ -55,10 +55,10 @@ public class Cities {
     public static void main(String [] args){
 
         //First Example test case:
-//        exampleTest();
-//
-//        //Next test case: all cities are equally attractive,
-//        allCitiHaveEqualImportant();
+        exampleTest();
+
+        //Next test case: all cities are equally attractive,
+        allCitiHaveEqualImportant();
 
         //straight star
         straightStar();
@@ -143,9 +143,9 @@ public class Cities {
         D[7] = 2;
         D[8] = 4;
 
-        //System.out.println("Second test case should return 3 : " + c.solution(3, C, D));
-        System.out.println("Second test case should return 3 : " + c.solution(6, C, D));
-        //System.out.println("Second test case should return 8 : " + c.solution(8, C, D));
+        System.out.println("Second test case should return 3 : " + c.solution(3, C, D));
+        System.out.println("Second test case should return 3 : " + c.solution(6, C, D)); //TODO: Solve this class of cases
+        System.out.println("Second test case should return 8 : " + c.solution(8, C, D));
 
     }
     /**
@@ -159,7 +159,7 @@ public class Cities {
         int N = C.length;
         Integer[] dd = new Integer[D.length];
         for (int i = 0; i < D.length; i++) {
-            dd[i] = D[i];
+            dd[i] = Integer.valueOf(D[i]);
         }
         List<Integer> order  = new ArrayList<Integer>(Arrays.asList(dd));
 
@@ -217,7 +217,7 @@ public class Cities {
         for(int i=0; i<N; i++) {
             if(qu[i]==-1){ ss=i; break; }
             ss++;
-        }
+        };
 
         //Checkin if there are no "island" element with big value outside the minimum spanning tree
         for (int i=0; i<ss; i++){
@@ -225,28 +225,12 @@ public class Cities {
             int found = Collections.binarySearch(order, attr);
             order.remove(found);
         }
-        int j; //j is a max value from excluded cities
-        for(j=max; j>ll; j--){
-            int index = Collections.binarySearch(order, j);
-            if( index >-1) break;
+        int j;
+        for(j=max; j>=ll; j--){
+            if(Collections.binarySearch(order, j) != -1) break;
         }
         if(j != ll){
-            int result = 0;
-            for(int i=N-1; i>0; i--){
-                if(dd[i]>j)result++;
-
-                if(dd[i]==j){
-
-                    int index = Collections.binarySearch(order, j);
-                    if( index >-1){
-                        order.remove(index);
-
-                    } else {
-                        result++;
-                    }
-                }
-            }
-            return result;
+           //TODO: penetrate stack rather do this
         }
 
         return K>ss ? ss : K;
