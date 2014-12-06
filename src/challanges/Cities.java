@@ -98,6 +98,7 @@ public class Cities {
         List<Integer> order  = new ArrayList<Integer>(Arrays.asList(dd));
 
         Collections.sort(order);
+        Arrays.sort(dd);
 
         //We start from list of most attractive city
         int start = -1;
@@ -110,6 +111,7 @@ public class Cities {
         //Important we can create minimum spanning tree that depends on K
         if(K>N) return N;
         int ll = order.get(N-K); //LowerLimit
+        int max = order.get(N-1);
 
         //Lets create awesome graph :)
         Graph g = new Graph(N);
@@ -150,8 +152,19 @@ public class Cities {
 
         //Checkin if there are no "island" element with big value outside the minimum spanning tree
         for (int i=0; i<ss; i++){
-            LinkedList lll ;
-
+            int attr = D[qu[i]];
+            int found = Collections.binarySearch(order, attr);
+            order.remove(found);
+        }
+        int j;
+        for(j=max; j>=ll; j--){
+            if(Collections.binarySearch(order, j) != -1) break;
+        }
+        if(j != ll){
+            int result = 0;
+            for(int i=N-1; i>0; i--){
+                if(dd[i]>j)result++;
+            }
         }
 
         return K>ss ? ss : K;
