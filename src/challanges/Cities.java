@@ -1,8 +1,6 @@
 package challanges;
 
-import sun.security.provider.certpath.Vertex;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -56,6 +54,14 @@ public class Cities {
 
     public static void main(String [] args){
 
+        //First Example test case:
+        exampleTest();
+
+        //Next test case: all cities are equally attractive,
+        allCitiHaveEqualImportant();
+    }
+
+    public static void exampleTest(){
         Cities c = new Cities();
 
         int [] C = new int [7];
@@ -79,6 +85,32 @@ public class Cities {
 
         System.out.println("First test case should return 2 : " + c.solution(2, C, D));
         System.out.println("First test case should return 4 : " + c.solution(4, C, D));
+    }
+
+    public static void allCitiHaveEqualImportant(){
+        Cities c = new Cities();
+
+        int [] C = new int [7];
+        int [] D = new int [7];
+        C[0] = 1 ;
+        C[1] = 3 ;
+        C[2] = 0 ;
+        C[3] = 3;
+        C[4] = 2;
+        C[5] = 4;
+        C[6] = 4;
+
+        D[0] = 7;
+        D[1] = 7;
+        D[2] = 7;
+        D[3] = 7;
+        D[4] = 7;
+        D[5] = 7;
+        D[6] = 7;
+
+        System.out.println("Second test case should return 2 : " + c.solution(2, C, D));
+        System.out.println("Second test case should return 4 : " + c.solution(4, C, D));
+        System.out.println("Second test case should return 7 : " + c.solution(7, C, D));
 
     }
 
@@ -148,7 +180,10 @@ public class Cities {
         }
 
         int ss = 0; //StackSize
-        for(int i=0; i<N; i++) if(qu[i]==-1){ ss=i; break; };
+        for(int i=0; i<N; i++) {
+            if(qu[i]==-1){ ss=i; break; }
+            ss++;
+        };
 
         //Checkin if there are no "island" element with big value outside the minimum spanning tree
         for (int i=0; i<ss; i++){
