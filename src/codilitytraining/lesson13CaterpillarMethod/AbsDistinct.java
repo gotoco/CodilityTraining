@@ -1,7 +1,6 @@
 package codilitytraining.lesson13CaterpillarMethod;
 
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 /**
  A non-empty zero-indexed array A consisting of N numbers is given. The array is sorted in non-decreasing order. The absolute distinct count of this array is the number of distinct absolute values among the elements of the array.
@@ -222,11 +221,13 @@ public class AbsDistinct {
 
     public int solution(int[] A) {
 
-       return difficultSolution(A);
+        return shorterSolution(A);
     }
 
     /**
-     * This task is possible to solve with O(N) Time compexity and O(1) space but algirithm is not easy
+     * This task is possible to solve with O(N) Time complexity and O(1) space!
+     * Without java.util etc.
+     * but algorithm is not easy
      */
     public int difficultSolution(int[] A) {
         int N = A.length;
@@ -241,9 +242,6 @@ public class AbsDistinct {
         }
         int front = zero; int end=zero;
         //Starting from zero:
-//        int lastEl = Math.abs(A[zero]);
-//        int llEl = Math.abs(A[zero]);
-
         int lastFront = Math.abs(A[zero]);
         int lastEnd = Math.abs(A[zero]);
 
@@ -261,7 +259,6 @@ public class AbsDistinct {
             else
                 endEl = Math.abs(A[N-1]);
 
-
             if(frontEl>endEl){
                 while(frontEl>=endEl && end<N){
                     end++;
@@ -274,7 +271,6 @@ public class AbsDistinct {
                         solution++;
                         lastEnd=endEl;
                     }
-
                 }
             }
 
@@ -285,6 +281,7 @@ public class AbsDistinct {
                         frontEl = Math.abs(A[front]);
                     else
                         frontEl = Math.abs(A[0]);
+
                     if(frontEl != lastFront && frontEl!=lastEnd){
                         solution++;
                         lastFront=frontEl;
@@ -338,6 +335,47 @@ public class AbsDistinct {
         return solution;
     }
 
+    /**
+     * Using Java.util is pretty cool
+     */
+    public int shorterSolution(int [] A){
+        int N = A.length;
+
+        Set<Integer> set= new HashSet<Integer>();
+
+        for(int i=0; i<N; i++){
+            set.add(Math.abs(A[i]));
+        }
+
+        return set.size();
+    }
+
+    public int refactoredSolution(int [] A){
+        int newLength = 0;
+
+        for(int i=1;i<A.length;i++) {
+            if(A[i]!=A[newLength]) {
+                A[++newLength] = A[i];
+            }
+        }
+
+        int ans = ++newLength;
+        int left = 0, right = 0;
+        while (left < newLength && A[left] < 0) left++;
+        right = left;
+        left--;
+        while (left >= 0 && right < newLength) {
+            if (A[left] + A[right] == 0) {
+                ans--;
+                left--;
+                right++;
+            } else if (A[left] + A[right] > 0) {
+                left--;
+            } else right++;
+        }
+        return ans;
+    }
+
     public int bruteForceSolution(int[] A){
         int N = A.length;
 
@@ -347,7 +385,7 @@ public class AbsDistinct {
         int solution = 0;
 
         for(int i=0; i<N; i++){
-           if(Math.abs(A[i]) == c && i!=0) continue;
+            if(Math.abs(A[i]) == c && i!=0) continue;
 
             for(int j=i+1; j<N; j++){
                 if(Math.abs(A[j])==Math.abs(A[i]) )
