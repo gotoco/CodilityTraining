@@ -19,7 +19,7 @@ package codilitytraining.lesson14GreedyAlgorithms;
  rope 4 with rope 5 with rope 6 to produce a rope of length A[4] + A[5] + A[6] = 5.
  After that, there will be three ropes whose lengths are greater than or equal to K = 4. It is not possible to produce four such ropes.
  Write a function:
- int solution(int K, int A[], int N);
+ int solution(int K, int A[]);
  that, given an integer K and a non-empty zero-indexed array A of N integers, returns the maximum number of ropes of length greater than or equal to K that can be created.
  For example, given K = 4 and array A such that:
  A[0] = 1
@@ -40,4 +40,37 @@ package codilitytraining.lesson14GreedyAlgorithms;
  Elements of input arrays can be modified.
  */
 public class TieRopes {
+
+    public static void main(String [] args){
+        TieRopes t = new TieRopes();
+
+        int [] A = new int[7];
+
+        A[0] = 1;
+        A[1] = 2;
+        A[2] = 3;
+        A[3] = 4;
+        A[4] = 1;
+        A[5] = 1;
+        A[6] = 3;
+
+        System.out.println("Example should return 3 :" + t.solution(4, A));
+    }
+
+    public int solution(int K, int[] A) {
+
+        int N = A.length;
+        int result = 0;
+        int tmp = 0;
+
+        for(int i=0; i<N; i++){
+            tmp +=A[i];
+            if(tmp>=K){
+                result++;
+                tmp = 0;
+            }
+        }
+
+        return result;
+    }
 }
